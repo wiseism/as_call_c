@@ -129,3 +129,19 @@ else()
 
     target_link_libraries(asm_math m)
 endif()
+
+if(IS_ARM64)
+    set(MINIMAL_ASM
+        minimal_arm64.s
+    )
+else()
+    set(MINIMAL_ASM
+        minimal_x86_64.asm
+    )
+endif()
+
+set(MINIMAL_WRAPPER
+    minimal_wrapper.c
+)
+
+add_executable(minimal_example ${MINIMAL_ASM} ${MINIMAL_WRAPPER})
