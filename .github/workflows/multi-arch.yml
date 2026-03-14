@@ -1,0 +1,119 @@
+name: Build and Test Multi-Architecture
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+env:
+  BUILD_TYPE: Release
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        include:
+          - os: macos-latest
+            arch: x86_64
+            name: "macOS x86_64"
+          - os: macos-14
+            arch: arm64
+            name: "macOS ARM64"
+    
+    runs-on: ${{ matrix.os }}
+    
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Display Architecture
+      run: |
+        echo "Running on ${{ matrix.arch }}"
+        echo "OS: ${{ matrix.os }}"
+        uname -m
+        uname -p
+
+    - name: Install Dependencies
+      run: |
+        if [ "${{ matrix.arch }}" = "x86_64" ]; then
+          echo "Installing NASM for x86_64..."
+          brew install nasm
+        else
+          echo "No additional dependencies needed for ARM64"
+        fi
+
+    - name: Configure CMake
+      run: |
+        echo "Configuring for ${{ matrix.arch }}..."
+        cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+
+    - name: Build
+      run: |
+        echo "Building for ${{ matrix.arch }}..."
+        cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
+
+    - name: Test x86_64
+      if: matrix.arch == 'x86_64'
+      working-directory: ${{github.workspace}}/build
+      run: |
+        echo "=========================================="
+        echo "Testing x86_64 executables"
+        echo "=========================================="
+        echo ""
+        echo "Testing asm_call_c..."
+        ./asm_call_c "Hello"
+        echo ""
+        echo "Testing asm_calls_c..."
+        ./asm_calls_c
+        echo ""
+        echo "Testing asm_stdlib..."
+        ./asm_stdlib
+        echo ""
+        echo "Testing asm_math..."
+        ./asm_math
+        echo ""
+        echo "Testing minimal_example..."
+        ./minimal_example
+        echo ""
+        echo "=========================================="
+        echo "All x86_64 tests completed!"
+        echo "=========================================="
+
+    - name: Test ARM64
+      if: matrix.arch == 'arm64'
+      working-directory: ${{github.workspace}}/build
+      run: |
+        echo "=========================================="
+        echo "Testing ARM64 executables"
+        echo "=========================================="
+        echo ""
+        echo "Testing asm_call_c..."
+        ./asm_call_c "Hello"
+        echo ""
+        echo "Testing asm_calls_c..."
+        ./asm_calls_c
+        echo ""
+        echo "Testing asm_stdlib..."
+        ./asm_stdlib
+        echo ""
+        echo "Testing asm_math..."
+        ./asm_math
+        echo ""
+        echo "Testing minimal_example..."
+        ./minimal_example
+        echo ""
+        echo "=========================================="
+        echo "All ARM64 tests completed!"
+        echo "=========================================="
+
+    - name: Build Summary
+      if: always()
+      run: |
+        echo "=========================================="
+        echo "Build Summary"
+        echo "=========================================="
+        echo "Architecture: ${{ matrix.arch }}"
+        echo "OS: ${{ matrix.os }}"
+        echo "Build Type: ${{ env.BUILD_TYPE }}"
+        echo "Status: ${{ job.status }}"
+        echo "=========================================="
