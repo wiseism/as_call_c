@@ -1,10 +1,12 @@
 .text
+.global _main
 .global _asm_calls_c_entry
 .extern _print_hello
 .extern _print_number
 .extern _add_numbers
 .extern _print_string
 
+_main:
 _asm_calls_c_entry:
     stp     x29, x30, [sp, #-16]!
     mov     x29, sp
