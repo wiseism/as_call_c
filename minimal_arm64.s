@@ -17,19 +17,23 @@ _minimal_entry:
     add     x0, x19, x20
     add     x0, x0, x21
     
-    adrp    x1, msg_result@page
-    add     x1, x1, msg_result@pageoff
-    mov     x2, x0
-    mov     x0, x1
+    mov     x10, x0
+    adrp    x0, msg_result@page
+    add     x0, x0, msg_result@pageoff
+    sub     sp, sp, #16
+    str     x10, [sp]
     bl      _printf
+    add     sp, sp, #16
     
     mul     x0, x19, x20
     
-    adrp    x1, msg_multiply@page
-    add     x1, x1, msg_multiply@pageoff
-    mov     x2, x0
-    mov     x0, x1
+    mov     x10, x0
+    adrp    x0, msg_multiply@page
+    add     x0, x0, msg_multiply@pageoff
+    sub     sp, sp, #16
+    str     x10, [sp]
     bl      _printf
+    add     sp, sp, #16
     
     mov     w0, #0
     ldp     x29, x30, [sp], #32

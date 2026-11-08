@@ -19,45 +19,55 @@ _asm_stdlib_entry:
     
     adrp    x0, msg_printf@page
     add     x0, x0, msg_printf@pageoff
-    mov     x1, #42
-    mov     x2, #100
+    sub     sp, sp, #16
+    mov     x10, #42
+    mov     x11, #100
+    stp     x10, x11, [sp]
     bl      _printf
+    add     sp, sp, #16
     
     adrp    x0, test_string@page
     add     x0, x0, test_string@pageoff
     bl      _strlen
-    adrp    x1, msg_strlen@page
-    add     x1, x1, msg_strlen@pageoff
-    mov     x2, x0
-    mov     x0, x1
+    mov     x10, x0
+    adrp    x0, msg_strlen@page
+    add     x0, x0, msg_strlen@pageoff
+    sub     sp, sp, #16
+    str     x10, [sp]
     bl      _printf
+    add     sp, sp, #16
     
     adrp    x0, buffer@page
     add     x0, x0, buffer@pageoff
     adrp    x1, source_string@page
     add     x1, x1, source_string@pageoff
     bl      _strcpy
+    adrp    x10, buffer@page
+    add     x10, x10, buffer@pageoff
     adrp    x0, msg_strcpy@page
     add     x0, x0, msg_strcpy@pageoff
-    adrp    x1, buffer@page
-    add     x1, x1, buffer@pageoff
+    sub     sp, sp, #16
+    str     x10, [sp]
     bl      _printf
+    add     sp, sp, #16
     
     adrp    x0, str1@page
     add     x0, x0, str1@pageoff
     adrp    x1, str2@page
     add     x1, x1, str2@pageoff
     bl      _strcmp
-    adrp    x1, msg_strcmp@page
-    add     x1, x1, msg_strcmp@pageoff
-    mov     x2, x0
-    mov     x0, x1
+    mov     x10, x0
+    adrp    x0, msg_strcmp@page
+    add     x0, x0, msg_strcmp@pageoff
+    sub     sp, sp, #16
+    str     x10, [sp]
     bl      _printf
+    add     sp, sp, #16
     
     mov     x0, #64
     bl      _malloc
     cbz     x0, .malloc_failed
-    str     x0, [x29, #-8]
+    str     x0, [x29, #16]
     
     mov     w1, #'A'
     strb    w1, [x0]
@@ -73,7 +83,7 @@ _asm_stdlib_entry:
     mov     x0, x1
     bl      _printf
     
-    ldr     x0, [x29, #-8]
+    ldr     x0, [x29, #16]
     bl      _free
     
     adrp    x0, msg_free@page
@@ -83,11 +93,13 @@ _asm_stdlib_entry:
     adrp    x0, number_str@page
     add     x0, x0, number_str@pageoff
     bl      _atoi
-    adrp    x1, msg_atoi@page
-    add     x1, x1, msg_atoi@pageoff
-    mov     x2, x0
-    mov     x0, x1
+    mov     x10, x0
+    adrp    x0, msg_atoi@page
+    add     x0, x0, msg_atoi@pageoff
+    sub     sp, sp, #16
+    str     x10, [sp]
     bl      _printf
+    add     sp, sp, #16
     
     mov     w0, #0
     ldp     x29, x30, [sp], #32

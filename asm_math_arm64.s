@@ -28,8 +28,10 @@ _asm_math_entry:
     bl      _sin
     adrp    x0, msg_sin@page
     add     x0, x0, msg_sin@pageoff
-    mov     x1, #1
+    sub     sp, sp, #16
+    str     d0, [sp]
     bl      _printf
+    add     sp, sp, #16
     
     adrp    x8, angle_45@page
     add     x8, x8, angle_45@pageoff
@@ -37,8 +39,10 @@ _asm_math_entry:
     bl      _cos
     adrp    x0, msg_cos@page
     add     x0, x0, msg_cos@pageoff
-    mov     x1, #1
+    sub     sp, sp, #16
+    str     d0, [sp]
     bl      _printf
+    add     sp, sp, #16
     
     adrp    x8, angle_45@page
     add     x8, x8, angle_45@pageoff
@@ -46,8 +50,10 @@ _asm_math_entry:
     bl      _tan
     adrp    x0, msg_tan@page
     add     x0, x0, msg_tan@pageoff
-    mov     x1, #1
+    sub     sp, sp, #16
+    str     d0, [sp]
     bl      _printf
+    add     sp, sp, #16
     
     adrp    x8, number_16@page
     add     x8, x8, number_16@pageoff
@@ -55,8 +61,10 @@ _asm_math_entry:
     bl      _sqrt
     adrp    x0, msg_sqrt@page
     add     x0, x0, msg_sqrt@pageoff
-    mov     x1, #1
+    sub     sp, sp, #16
+    str     d0, [sp]
     bl      _printf
+    add     sp, sp, #16
     
     adrp    x8, base_2@page
     add     x8, x8, base_2@pageoff
@@ -67,8 +75,10 @@ _asm_math_entry:
     bl      _pow
     adrp    x0, msg_pow@page
     add     x0, x0, msg_pow@pageoff
-    mov     x1, #1
+    sub     sp, sp, #16
+    str     d0, [sp]
     bl      _printf
+    add     sp, sp, #16
     
     adrp    x8, neg_number@page
     add     x8, x8, neg_number@pageoff
@@ -76,8 +86,10 @@ _asm_math_entry:
     bl      _fabs
     adrp    x0, msg_fabs@page
     add     x0, x0, msg_fabs@pageoff
-    mov     x1, #1
+    sub     sp, sp, #16
+    str     d0, [sp]
     bl      _printf
+    add     sp, sp, #16
     
     adrp    x8, number_pi@page
     add     x8, x8, number_pi@pageoff
@@ -85,8 +97,10 @@ _asm_math_entry:
     bl      _floor
     adrp    x0, msg_floor@page
     add     x0, x0, msg_floor@pageoff
-    mov     x1, #1
+    sub     sp, sp, #16
+    str     d0, [sp]
     bl      _printf
+    add     sp, sp, #16
     
     adrp    x8, number_pi@page
     add     x8, x8, number_pi@pageoff
@@ -94,8 +108,10 @@ _asm_math_entry:
     bl      _ceil
     adrp    x0, msg_ceil@page
     add     x0, x0, msg_ceil@pageoff
-    mov     x1, #1
+    sub     sp, sp, #16
+    str     d0, [sp]
     bl      _printf
+    add     sp, sp, #16
     
     adrp    x8, number_1@page
     add     x8, x8, number_1@pageoff
@@ -103,8 +119,10 @@ _asm_math_entry:
     bl      _exp
     adrp    x0, msg_exp@page
     add     x0, x0, msg_exp@pageoff
-    mov     x1, #1
+    sub     sp, sp, #16
+    str     d0, [sp]
     bl      _printf
+    add     sp, sp, #16
     
     adrp    x8, number_e@page
     add     x8, x8, number_e@pageoff
@@ -112,8 +130,10 @@ _asm_math_entry:
     bl      _log
     adrp    x0, msg_log@page
     add     x0, x0, msg_log@pageoff
-    mov     x1, #1
+    sub     sp, sp, #16
+    str     d0, [sp]
     bl      _printf
+    add     sp, sp, #16
     
     adrp    x8, number_100@page
     add     x8, x8, number_100@pageoff
@@ -121,8 +141,10 @@ _asm_math_entry:
     bl      _log10
     adrp    x0, msg_log10@page
     add     x0, x0, msg_log10@pageoff
-    mov     x1, #1
+    sub     sp, sp, #16
+    str     d0, [sp]
     bl      _printf
+    add     sp, sp, #16
     
     mov     w0, #0
     ldp     x29, x30, [sp], #32
