@@ -3,12 +3,12 @@
 .extern _printf
 
 _minimal_entry:
-    stp     x29, x30, [sp, #-32]!
+    stp     x29, x30, [sp, #-48]!
     mov     x29, sp
     
-    str     x19, [sp, #24]
-    str     x20, [sp, #16]
-    str     x21, [sp, #8]
+    str     x19, [sp, #16]
+    str     x20, [sp, #24]
+    str     x21, [sp, #32]
     
     mov     x19, #10
     mov     x20, #20
@@ -36,7 +36,10 @@ _minimal_entry:
     add     sp, sp, #16
     
     mov     w0, #0
-    ldp     x29, x30, [sp], #32
+    ldr     x21, [sp, #32]
+    ldr     x20, [sp, #24]
+    ldr     x19, [sp, #16]
+    ldp     x29, x30, [sp], #48
     ret
 
 .data

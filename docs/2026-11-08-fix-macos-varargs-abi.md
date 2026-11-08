@@ -28,7 +28,7 @@ macOS 上 printf 读到垃圾/崩溃。
 2. `asm_math_arm64.s` 尾部重复两次 `ldp x29, x30, [sp], #32`，栈错乱。
 
 ## 修复内容
-（以下 arm64 .s 仅在 macOS arm64 构建使用： Apple 约定改写）
+已确认 arm64 .s 仅在 macOS arm64 构建使用： Apple 约定改写）
 - `asm_stdlib_arm64.s`：5 处 printf  `sub sp,sp,#16` + `str/slot` 压栈，
   调用后 `add sp,sp,#16` 清退；malloc 指针保存位置修正。
 - `asm_math_arm64.s`：11 处 `%f` printf —— `str d0, [sp]`（double 变参入栈）；
@@ -40,3 +40,6 @@ macOS 上 printf 读到垃圾/崩溃。
 | run id | 结果 |
 | --- | --- |
 | 本次推送触发 | 待填 |
+
+### 第2次复测(42442330769)
+- math 全部输出正确; minimal_example segfault: 保存 x21 用了 [sp,#8] 且帧仅 32B, 覆盖了 x29 保存槽。帧改 48B 并改槽位 [sp,#16/24/32], 退出前 ldr 恢复。
