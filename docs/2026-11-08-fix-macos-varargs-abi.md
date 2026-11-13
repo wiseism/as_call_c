@@ -39,7 +39,7 @@ macOS 上 printf 读到垃圾/崩溃。
 ## 验证
 | run id | 结果 |
 | --- | --- |
-| 本次推送触发 | 待填 |
+| 43225033908 (multi-arch) / 43225033520 (ubuntu) | ✅ success |
 
 ### 第2次复测(42442330769)
 - math 全部输出正确; minimal_example segfault: 保存 x21 用了 [sp,#8] 且帧仅 32B, 覆盖了 x29 保存槽。帧改 48B 并改槽位 [sp,#16/24/32], 退出前 ldr 恢复。
