@@ -38,4 +38,4 @@ Undefined symbols for architecture arm64:
 ## 验证
 | run id | 结果 |
 | --- | --- |
-| 本次推送触发 | 待填 |
+| 43225033908 (multi-arch) / 43225033520 (ubuntu) | ✅ success |
